@@ -11,14 +11,13 @@ class SupervisorMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user() &&Auth::user()->role =='supervisor'){
-            return redirect()->route('supervisor.dashboard');
+        if (Auth::check() && strtolower(Auth::user()->role) === 'supervisor') {
+            return $next($request); // ✅ allow supervisor
         }
-        return $next($request);
+
+        abort(403, 'Unauthorized'); // ❌ block non-supervisors
     }
 }

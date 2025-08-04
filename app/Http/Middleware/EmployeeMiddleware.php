@@ -11,14 +11,13 @@ class EmployeeMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user() &&Auth::user()->role =='employee'){
-            return redirect()->route('employee.dashboard');
+        if (Auth::check() && strtolower(Auth::user()->role) === 'employee') {
+            return $next($request); // ✅ allow employee to continue
         }
-        return $next($request);
+
+        abort(403, 'Unauthorized'); // ❌ block other users
     }
 }

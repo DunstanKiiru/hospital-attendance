@@ -28,7 +28,7 @@ Route::middleware(['admin','auth'])->group(function(){
     Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
 });
 
-Route::middleware(['HR','auth'])->group(function(){
+Route::middleware(['hr','auth'])->group(function(){
     Route::get('/hr/dashboard', HrDashboard::class)->name('hr.dashboard');
 });
 

@@ -43,7 +43,14 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: route(
+            match(strtolower(Auth::user()->role)) {
+                'admin' => 'admin.dashboard',
+                'hr' => 'hr.dashboard',
+                'supervisor' => 'supervisor.dashboard',
+                default => 'employee.dashboard'
+            }
+        ), navigate: true);
     }
 
     /**
